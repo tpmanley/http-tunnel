@@ -29,6 +29,7 @@ use log4rs::config::{Appender, Root};
 use log4rs::Config;
 use std::io::{Error, ErrorKind};
 use tokio::io::{AsyncRead, AsyncWrite};
+use libmdns::Responder;
 
 mod configuration;
 mod http_tunnel_codec;
@@ -65,6 +66,14 @@ async fn main() -> io::Result<()> {
             .target_connection
             .dns_cache_ttl,
     );
+
+    let responder = Responder::new()?;
+    let _http_svc = responder.register(
+                  "_http._tcp".into(),
+                  "HTTPTUNNEL".into(),
+                  80,
+                  &["path=/"]
+             );
 
     match &proxy_configuration.mode {
         ProxyMode::Http => {
