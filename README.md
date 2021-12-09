@@ -23,6 +23,11 @@ You can check [benchmarks](https://github.com/xnuter/perf-gauge/wiki/Benchmarkin
 
 [Read more](https://medium.com/@xnuter/writing-a-modern-http-s-tunnel-in-rust-56e70d898700) about the design.
 
+### mDNS discovery
+
+The `libmdns` library is used to make this server discoverable with mDNS. It advertises a service name of
+`_httptunnel._tcp`. It will advertise the same port included in the ``--bind` parameter.
+
 ### Quick overview of source files
 
 * `configuration.rs` - contains configuration structures + a basic CLI
